@@ -211,10 +211,10 @@
 			startTimer = setTimeout(function() {
 				player.play(word.audio);
 
-			}, 500);
+			}, 0);
 			thirdSecond = setTimeout(function (){
 				$(".cnText").show();
-			},3000);
+			},0);
 			
 		}
 		
@@ -299,7 +299,7 @@
 			}
 			endTimer = setTimeout(function() {
 				player.play(wordlist[wordCount].audio);
-			}, 500);
+			}, 0);
 			clearTimeout(thirdSecond);
 		}
 		
@@ -328,7 +328,7 @@
 				} else {
 					proTimer = setTimeout(function() {
 						player.play(wordlist[wordCount].audio);
-					}, 1500);
+					}, 0);
 				}
 			}
 		}
