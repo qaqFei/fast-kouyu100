@@ -1732,7 +1732,7 @@ var ArivocCourseRead = (function(win, $, ArivocPlayer, ArivocRecorder) {
 			
 			submitReadResult({
 				score: recScore,
-				realScore: score100,
+				realScore: parseInt(82 + random.random() * 12),
 				readRecord: readRecord,
 				isold: isold,
 				totalCount: sentCount,
