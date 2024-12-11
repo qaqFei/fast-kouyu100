@@ -74,51 +74,52 @@ def fast_kouyu100(un: str, pwd: str):
             return
         
         time.sleep(1 / 15)
-
-    if window.evaluate_js(load_script("./fast-kouyu100-gethw.js") + "\ngethw();") == "nohw":
-        print(f"{un} 没有作业")
-        return
     
-    print(f"{un} 有作业")
-    
-    print("获取作业...")
-    window.evaluate_js("gethw_items();")
     while True:
-        hw_items = window.evaluate_js("homework;")
-        if hw_items is not None:
-            break
-        time.sleep(1 / 15)
-    
-    print(f"得到作业, 数量: {len(hw_items)}, 开始处理作业...")
-    
-    for i, (hw_name, hw_url) in enumerate(hw_items):
-        print(f"正在处理作业: {i + 1}. {hw_name}")
-        goto_url(hw_url)
-        window.evaluate_js(load_script("./fast-kouyu100-checker.js"))
+        if window.evaluate_js(load_script("./fast-kouyu100-gethw.js") + "\ngethw();") == "nohw":
+            print(f"{un} 没有/已完成作业")
+            return
         
-        match hw_name:
-            case "跟读":
-                checker_fn = "gendu_checker"
-                checker_rn = "checker_status.gendu"
-            
-            case "单词两分钟":
-                checker_fn = "w2m_checker"
-                checker_rn = "checker_status.w2m"
-            
-            case "看词选图":
-                checker_fn = "cpbw_checker"
-                checker_rn = "checker_status.cpbw"
-            
-            case _:
-                print(f"未知作业类型: {hw_name}")
-                continue
-        
-        window.evaluate_js(f"{checker_fn}();")
-        while not window.evaluate_js(f"{checker_rn};"): # 等待作业完成
+        print(f"{un} 有作业")
+    
+        print("获取作业...")
+        window.evaluate_js("gethw_items();")
+        while True:
+            hw_items = window.evaluate_js("homework;")
+            if hw_items is not None:
+                break
             time.sleep(1 / 15)
         
-        print(f"作业处理完成: {i + 1}. {hw_name}")
-        back()
+        print(f"得到作业, 数量: {len(hw_items)}, 开始处理作业...")
+
+        for i, (hw_name, hw_url) in enumerate(hw_items):
+            print(f"正在处理作业: {i + 1}. {hw_name}")
+            goto_url(hw_url)
+            window.evaluate_js(load_script("./fast-kouyu100-checker.js"))
+            
+            match hw_name:
+                case "跟读":
+                    checker_fn = "gendu_checker"
+                    checker_rn = "checker_status.gendu"
+                
+                case "单词两分钟":
+                    checker_fn = "w2m_checker"
+                    checker_rn = "checker_status.w2m"
+                
+                case "看词选图":
+                    checker_fn = "cpbw_checker"
+                    checker_rn = "checker_status.cpbw"
+                
+                case _:
+                    print(f"未知作业类型: {hw_name}")
+                    continue
+        
+            window.evaluate_js(f"{checker_fn}();")
+            while not window.evaluate_js(f"{checker_rn};"): # 等待作业完成
+                time.sleep(1 / 15)
+            
+            print(f"作业处理完成: {i + 1}. {hw_name}")
+            back()
     
 def worker():
     for user in json.load(open("./users.json", "r", encoding="utf-8")):

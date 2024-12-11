@@ -478,7 +478,7 @@
                 data.correctWordsIds = data.correctWordsIds.join("-")
                 data.practiceNum = wdata.totalWords.length;
                 data.practiceTime = parseInt(wdata.totalWords.length * 1.7);
-                data.wordScore = wdata.correctWordIds.split("-").length * 10;
+                data.wordScore = data.correctWordsIds.split("-").length * 10;
                 data.workId = bdata.workId;
                 data.wrongWordIds = "";
             }

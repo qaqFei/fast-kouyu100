@@ -40,8 +40,8 @@ function w2m_checker() {
         return;
     }
 
-    let rp = document.querySelector(".result-progress");
-    if (!rp) {
+    let apage = document.querySelector(".w2m-study-after-page");
+    if (!apage || apage.style.display == "none") {
         requestAnimationFrame(w2m_checker);
         return;
     }
