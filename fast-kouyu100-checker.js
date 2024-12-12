@@ -40,13 +40,15 @@ function w2m_checker() {
         return;
     }
 
-    let apage = document.querySelector(".w2m-study-after-page");
-    if (!apage || apage.style.display == "none") {
-        requestAnimationFrame(w2m_checker);
-        return;
+    let apages = document.querySelectorAll(".w2m-study-after-page");
+    for (let apitem of apages) {
+        if (apitem.style.display != "none") {
+            checker_status.w2m = true;
+            return;
+        }
     }
-
-    checker_status.w2m = true;
+    
+    requestAnimationFrame(w2m_checker);
 }
 
 function cpbw_checker() {
