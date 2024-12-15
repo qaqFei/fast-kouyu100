@@ -42,7 +42,10 @@ def back():
     print("等待进入主界面...")
     
     goto_url(index_url)
-    while not window.evaluate_js("document.querySelector('#logo img');"): # 等待加载
+    while not (
+        bool(window.evaluate_js("document.querySelector('.style-24k .carouselPicture .banner .pic li.homework')"))
+        or bool(window.evaluate_js("document.querySelector('#btnAutoLogin');"))
+    ): # 等待加载
         time.sleep(1 / 15)
 
 def load_script(name: str):
